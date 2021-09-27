@@ -1,7 +1,7 @@
 # project-cis_4339_project_1
 
 ## **Project Choice**
-Option A: Restoring Justice
+Option B: Bread of Life
 
 ## **Team**
   * Dennis Bogdanov
