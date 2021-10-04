@@ -8,7 +8,7 @@ const server = express();
 
 let eventModel = require('./model/event');
 let serviceModel = require('./model/service');
-//let personModel = require('./model/person');
+let personModel = require('./model/person');
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connection Success!");
