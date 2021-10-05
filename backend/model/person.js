@@ -35,9 +35,13 @@ let personSchema = new Schema({
         type: String
     },
 
+    /**
+     *   Not sure if this is a proper subdocument. Maybe do events: [eventSchema] instead. 
+     *   But that would store ALL information about an event which is not exactly what we want
+     */
     events: [{
         eventId: {
-            type: String, // for now maybe a string
+            type: Number,
             required: true
         },
         receiveVaccine: {
