@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment')
 const Schema = mongoose.Schema;
 
 let eventSchema = new Schema({
+    eventId: {
+        type: Number,
+        required: true
+    },
     name: {
         type: String
     },
@@ -18,4 +23,7 @@ let eventSchema = new Schema({
     collection: 'events'
 });
 
+autoIncrement.initialize(mongoose.connection);
+eventSchema.plugin(autoIncrement.plugin, {model: 'event', field: 'eventId'});
+var Counter = mongoose.model('event', eventSchema)
 module.exports = mongoose.model('event', eventSchema)

@@ -21,53 +21,107 @@ const PORT = process.env.PORT || 3000;
 server.use(express.json());
 server.use(morgan("dev"));
 
-//Add and Delete services. Temporary probably we'll need something a bit more complex probably i dunno.
-server.post('/service', (req, res, next) => {
-    serviceModel.create(req.body, (error, data) => {
+//Person CRUD
+server.post('/person', (req, res, next) => { //Add a person, using full information from a JSON input
+    personModel.create(req.body, (error, data) => {
         if(error) {
-            return next(error)
+            return next(error);
         }
         else {
-            res.send('Added a service');
+            res.send('Added a person');
         }
     });
 });
-server.delete('/service', (req, res, next) => {
-    serviceModel.findOneAndRemove(req.body, (error, data) => {
-        if(error) {
-            return next(error)
-        }
-        else {
-            res.send('Removed a service');
-        }
-    });
-});
-
-
-server.get('/person/:id', (req, res, next) => {
+server.get('/person/:id', (req, res, next) => { //GET a person by their ID
     personModel.find({personId: req.params.id}, (error, data) => {
         if(error) {
-            return next(error)
+            return next(error);
         }
         else {
             res.json(data);
         }
     });
 });
-server.post('/person', (req, res, next) => {
-    personModel.create(req.body, (error, data) => {
+server.put('/person/:id', (req, res, next) => { //Edit a person by their ID, allowing change of any data with JSON input
+    personModel.findOneAndUpdate({ personId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
-            return next(error)
+            return next(error);
         }
         else {
-            res.send('Added a person')
+            res.send('Person has been edited');
         }
     });
 });
-server.delete('/person', (req, res, next) => {
+server.delete('/person', (req, res, next) => { //Delete a person with matching fields from JSON input
     personModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
-            return next(error)
+            return next(error);
+        }
+        else {
+            res.send('Removed a person');
+        }
+    });
+});
+
+
+//Event CRUD
+server.post('/events', (req, res, next) => { //Create an event using JSON input
+    eventModel.create(req.body, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('Added an event');
+        }
+    });
+});
+server.get('/events/find-all', (req, res, next) => { //GET all events
+    eventModel.find((error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+server.get('/events/:id', (req, res, next) => { //GET an event by its ID
+    eventModel.find({eventId: req.params.id}, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
+
+//Services CRUD
+server.post('/service', (req, res, next) => { //Add a service using JSON input
+    serviceModel.create(req.body, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('Added a service');
+        }
+    });
+});
+server.get('/service/find-all', (req, res, next) => { //Find all services
+    serviceModel.find((error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send(data);
+        }
+    });
+});
+server.delete('/service', (req, res, next) => { //Delete a service with matching fields from JSON input. *MAY NOT BE NECESSARY*
+    serviceModel.findOneAndRemove(req.body, (error, data) => {
+        if(error) {
+            return next(error);
         }
         else {
             res.send('Removed a service');
@@ -75,7 +129,7 @@ server.delete('/person', (req, res, next) => {
     });
 });
 
-
+//Server Stuff
 server.listen(PORT, () => {
     console.log("Server listening on port: ", PORT);
 });
