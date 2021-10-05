@@ -21,6 +21,7 @@ const PORT = process.env.PORT || 3000;
 server.use(express.json());
 server.use(morgan("dev"));
 
+//Add and Delete services. Temporary probably we'll need something a bit more complex probably i dunno.
 server.post('/service', (req, res, next) => {
     serviceModel.create(req.body, (error, data) => {
         if(error) {
@@ -41,6 +42,39 @@ server.delete('/service', (req, res, next) => {
         }
     });
 });
+
+
+server.get('/person/:id', (req, res, next) => {
+    personModel.find({personId: req.params.id}, (error, data) => {
+        if(error) {
+            return next(error)
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+server.post('/person', (req, res, next) => {
+    personModel.create(req.body, (error, data) => {
+        if(error) {
+            return next(error)
+        }
+        else {
+            res.send('Added a person')
+        }
+    });
+});
+server.delete('/person', (req, res, next) => {
+    personModel.findOneAndRemove(req.body, (error, data) => {
+        if(error) {
+            return next(error)
+        }
+        else {
+            res.send('Removed a service');
+        }
+    });
+});
+
 
 server.listen(PORT, () => {
     console.log("Server listening on port: ", PORT);

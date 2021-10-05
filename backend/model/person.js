@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
+const autoIncrement = require('mongoose-auto-increment')
 const Schema = mongoose.Schema;
 
 let personSchema = new Schema({
+    personId: {
+        type: Number,
+        required: true
+    },
     firstName: {
         type: String
     },
@@ -12,35 +17,46 @@ let personSchema = new Schema({
         type: Number
     },
     zipCode: {
-        type: Number
+        type: String
     },
     receivedVaccine: {
-        type: String
+        type: Boolean
     },
     numChildren: {
-        type: String
+        type: Number
     },
     elderly: {
-        type: String
+        type: Boolean
     },
     veteran: {
-        type: String
+        type: Boolean
     },
     ethnicity: {
         type: String
     },
-    vaccine: {
-        type: String
-    },
-    preference: {
-        type: String
-    },
-    additionalSupport: {
-        type: String
-    }
+
+    events: [{
+        eventId: {
+            type: String, // for now maybe a string
+            required: true
+        },
+        receiveVaccine: {
+            type: Boolean
+        },
+        vaccinePreference: {
+            type: String
+        },
+        requireAdditionalSupport: {
+            type: String
+        }
+    }]
 
   }, {
       collection: 'person'
 });
 
-module.exports = mongoose.model('person', personSchema)
+
+autoIncrement.initialize(mongoose.connection);
+personSchema.plugin(autoIncrement.plugin, {model: 'person', field: 'personId'});
+var Counter = mongoose.model('person', personSchema)
+module.exports = mongoose.model('person', personSchema);
