@@ -10,6 +10,8 @@ let eventModel = require('./model/event');
 let serviceModel = require('./model/service');
 let personModel = require('./model/person');
 const { resourceLimits } = require("worker_threads");
+const { events } = require("./model/event");
+const e = require("express");
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connection Success!");
@@ -63,30 +65,6 @@ server.put('/person/:id', (req, res, next) => { //Edit a person by their ID, all
         }
     });
 });
-
-//TODO: This doesnt work. 
-server.put('/person/add-event/:id', (req, res) => {
-    personModel.findOne({ personId: req.params.id }, function(err, result) {
-        if (!err) {
-          if (!result){
-            res.sendStatus(404).send('Person was not found').end();
-          }
-          else{
-            result.events.push(req.body);
-            result.markModified('events'); 
-            result.save(function(saveerr, saveresult) {
-              if (!saveerr) {
-                res.status(200).send(saveresult);
-              } else {
-                res.status(400).send(saveerr.message);
-              }
-            });
-          }
-        } else {
-          res.status(400).send(err.message);
-        }
-    });
-});
 server.delete('/person', (req, res, next) => { //Delete a person with matching fields from JSON input
     personModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
@@ -95,6 +73,116 @@ server.delete('/person', (req, res, next) => { //Delete a person with matching f
         else {
             res.send('Removed a person');
         }
+    });
+});
+
+// Person Event CRUD
+// TODO: Better Error Handling. Not all error cases are covered. Also this code is a headache to read.
+/** 
+ * Most of this code came from here:
+ * https://dev.to/dance_nguyen/adding-updating-and-removing-subdocuments-with-mongoose-1dj5 
+ */
+server.put('/person/add-event/:id', (req, res) => { //Add an event to a person using JSON input. Triggered by a successful RSVP.
+    personModel.findOne({ personId: req.params.id }, function(err, result) {
+        if (err) {
+            res.status(400).send(err.message);
+        }
+        else {
+            if (!result) {
+                res.sendStatus(404).send('Person was not found').end();
+            }
+            else {
+                //Add event to personModel result (a person)
+                result.events.push(req.body);
+                result.markModified('events'); 
+                result.save(function(saveerr, saveresult) {
+                if (!saveerr) {
+                    res.status(200).send(saveresult);
+                } 
+                else {
+                   res.status(400).send(saveerr.message);
+                }
+
+                });
+            } 
+        } 
+    });
+});
+server.put('/person/get-events/:id', (req, res) => { //Return a list of a persons events 
+    personModel.findOne({ personId: req.params.id }).populate('events').exec(function(err, person) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        else {
+            res.json(person.events);
+        }
+    });
+});
+/**
+ * UPDATE EVENT
+ * Requires the use of events subdocument ID 
+ * Should only allow updating of auxillary information about the RSVP - eventId should not be changed.
+ * If a person wishes to change the eventId they should remove this RSVP and create a new one.
+ */
+server.put('/person/update-event/:id', (req, res) => { //Update a persons event RSVP using personId param and events doc _id from JSON.
+    personModel.findOne({ personId: req.params.id }, function(err, result) {
+        if (err) {
+            res.status(400).send(err.message);
+        }
+        else {
+            if (!result) {
+                res.sendStatus(404).send('Person was not found').end();
+            }
+            else {
+                result.events.id(req.body._id).receiveVaccine = req.body.receiveVaccine;
+                result.events.id(req.body._id).requireAdditionalSupport = req.body.requireAdditionalSupport;
+                result.markModified('events'); 
+                result.save(function(saveerr, saveresult) {
+                if (!saveerr) {
+                    res.status(200).send(saveresult);
+                } 
+                else {
+                   res.status(400).send(saveerr.message);
+                }
+
+                });
+            } 
+        } 
+    });
+});
+server.put('/person/delete-event/:id', (req, res) => { //Delete a persons event RSVP using personId param and events doc _id from JSON.
+    personModel.findOne({ personId: req.params.id }, function(err, result) {
+        if (err) {
+            res.status(400).send(err.message);
+        }
+        else {
+            if (!result) {
+                res.sendStatus(404).send('Person was not found').end();
+            }
+            else {
+                if(!result.events.id(req.body_id)) {
+                    res.status(404).send('Event not found for this person').end();
+                    return;
+                }
+                else {
+                    result.events.id(req.body._id).remove(function(removeerr) {
+                        if(removeerr) {
+                            res.status(400).send(removeerr.message);
+                        }
+                   });
+                }
+                result.markModified('events'); 
+                result.save(function(saveerr, saveresult) {
+                if (!saveerr) {
+                    res.status(200).send(saveresult);
+                } 
+                else {
+                   res.status(400).send(saveerr.message);
+                }
+
+                });
+            } 
+        } 
     });
 });
 
