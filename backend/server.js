@@ -33,6 +33,16 @@ server.post('/person', (req, res, next) => { //Add a person, using full informat
         }
     });
 });
+server.get('/person/find-all', (req, res, next) => { //GET all people
+    personModel.find((error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
 server.get('/person/:id', (req, res, next) => { //GET a person by their ID
     personModel.find({personId: req.params.id}, (error, data) => {
         if(error) {
@@ -151,7 +161,27 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
+server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
+    eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('event has been edited');
+        }
+    });
+});
 
+server.delete('/events', (req, res, next) => { //Delete an event with matching fields from JSON input
+    eventModel.findOneAndRemove(req.body, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('Removed an event');
+        }
+    });
+});
 
 //Services CRUD
 server.post('/service', (req, res, next) => { //Add a service using JSON input
@@ -174,6 +204,7 @@ server.get('/service/find-all', (req, res, next) => { //Find all services
         }
     });
 });
+
 server.delete('/service', (req, res, next) => { //Delete a service with matching fields from JSON input. *MAY NOT BE NECESSARY*
     serviceModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
