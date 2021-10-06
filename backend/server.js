@@ -161,13 +161,13 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
-server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
+server.put('/events/:id', (req, res, next) => { //Edit an Event by their ID, allowing change of any data with JSON input
     eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
             return next(error);
         }
         else {
-            res.send('event has been edited');
+            res.send('Event has been edited');
         }
     });
 });
@@ -201,6 +201,28 @@ server.get('/service/find-all', (req, res, next) => { //Find all services
         }
         else {
             res.send(data);
+        }
+    });
+});
+
+server.get('/service/:id', (req, res, next) => { //GET a service by its ID
+    serviceModel.find({serviceId: req.params.id}, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
+server.put('/service/:id', (req, res, next) => { //Edit a service by its ID, allowing change of any data with JSON input
+    serviceModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('Service has been edited');
         }
     });
 });
