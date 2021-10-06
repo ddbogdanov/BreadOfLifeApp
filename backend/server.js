@@ -65,59 +65,28 @@ server.put('/person/:id', (req, res, next) => { //Edit a person by their ID, all
 });
 
 //TODO: This doesnt work. 
-server.put('/person/add-event/:id'), (req, res, next) => {
-    if(!err) {
-        if(!res) {
+server.put('/person/add-event/:id', (req, res) => {
+    personModel.findOne({ personId: req.params.id }, function(err, result) {
+        if (!err) {
+          if (!result){
             res.sendStatus(404).send('Person was not found').end();
-        }
-        else {
-            res.events.push(req.body);
-            res.markModified('events');
-            res.save(function(saveerr, saveres) {
-                if(!saveerr) {
-                    res.status(200).send(saveres);
-                }
-                else {
-                    res.status(400).send(saveerr.message);
-                }
+          }
+          else{
+            result.events.push(req.body);
+            result.markModified('events'); 
+            result.save(function(saveerr, saveresult) {
+              if (!saveerr) {
+                res.status(200).send(saveresult);
+              } else {
+                res.status(400).send(saveerr.message);
+              }
             });
-        }
-    }
-    else {
-        res.status(400).send(err.message);
-    }
-
-    /*
-    console.log("CHECK CHECK")
-    personModel.find({personId: req.params.id}, (error, data) => {
-        if(error) {
-            console.log("HERE ONE")
-            return next(error);
-        }
-        else {
-            if(!res) { //If no person found, send status 404
-                res.sendStatus(404).send('User was not found').end();
-                console.log("HERE TWO")
-            }
-            else {
-                res.events.push(req.body);
-                res.markModified('events');
-                res.save(function(saveerr, saveres) {
-                    if(!saveerr) {
-                        console.log("HERE THREE")
-                        res.status(200).send(saveres);
-                    }
-                    else {
-                        console.log("HERE FOUR")
-                        res.status(400).send(saveerr.message);
-                    }
-                
-                });
-            }
+          }
+        } else {
+          res.status(400).send(err.message);
         }
     });
-    */
-}
+});
 server.delete('/person', (req, res, next) => { //Delete a person with matching fields from JSON input
     personModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
@@ -128,7 +97,6 @@ server.delete('/person', (req, res, next) => { //Delete a person with matching f
         }
     });
 });
-
 
 //Event CRUD
 server.post('/events', (req, res, next) => { //Create an event using JSON input
@@ -161,7 +129,7 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
-server.put('/events/:id', (req, res, next) => { //Edit an Event by their ID, allowing change of any data with JSON input
+server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
     eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
             return next(error);
@@ -171,7 +139,6 @@ server.put('/events/:id', (req, res, next) => { //Edit an Event by their ID, all
         }
     });
 });
-
 server.delete('/events', (req, res, next) => { //Delete an event with matching fields from JSON input
     eventModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
@@ -204,7 +171,6 @@ server.get('/service/find-all', (req, res, next) => { //Find all services
         }
     });
 });
-
 server.get('/service/:id', (req, res, next) => { //GET a service by its ID
     serviceModel.find({serviceId: req.params.id}, (error, data) => {
         if(error) {
@@ -215,7 +181,6 @@ server.get('/service/:id', (req, res, next) => { //GET a service by its ID
         }
     });
 });
-
 server.put('/service/:id', (req, res, next) => { //Edit a service by its ID, allowing change of any data with JSON input
     serviceModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
@@ -226,7 +191,6 @@ server.put('/service/:id', (req, res, next) => { //Edit a service by its ID, all
         }
     });
 });
-
 server.delete('/service', (req, res, next) => { //Delete a service with matching fields from JSON input. *MAY NOT BE NECESSARY*
     serviceModel.findOneAndRemove(req.body, (error, data) => {
         if(error) {
