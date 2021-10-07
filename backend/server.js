@@ -1,5 +1,4 @@
 const express = require("express");
-const { Server } = require("http");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
 require("dotenv").config({ path: '../.env'});
@@ -9,10 +8,6 @@ const server = express();
 let eventModel = require('./model/event');
 let serviceModel = require('./model/service');
 let personModel = require('./model/person');
-const { resourceLimits } = require("worker_threads");
-const { events } = require("./model/event");
-const e = require("express");
-const { send } = require("process");
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connection Success!");
@@ -230,7 +225,7 @@ server.get('/events/find-all', (req, res, next) => { //GET all events
         }
     });
 });
-server.get('/events/find-all/currentevent', (req, res, next) => { // find the list of 3 current recent events
+server.get('/events/find-all/currentevent', (req, res, next) => { //Get a list of 3 most current events
     eventModel.find({},{name:1,date:1}).sort({date:-1}).limit(3)
         .exec(function (err, result) {
                 if(err) {
