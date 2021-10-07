@@ -55,6 +55,16 @@ server.get('/person/:id', (req, res, next) => { //GET a person by their ID
         }
     });
 });
+server.get('/person/event/:id', (req, res, next) => { //GET an event by its document ID
+    eventModel.findById(req.params.id, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
 server.put('/person/:id', (req, res, next) => { //Edit a person by their ID, allowing change of any data with JSON input
     personModel.findOneAndUpdate({ personId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
@@ -217,7 +227,7 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
-server.get('/event/services/:id', (req, res, next) => { //GET a service by its ID
+server.get('/event/services/:id', (req, res, next) => { //GET a service by its document ID
     serviceModel.findById(req.params.id, (error, data) => {
         if(error) {
             return next(error);
@@ -259,6 +269,14 @@ server.post('/service', (req, res, next) => { //Add a service using JSON input
         }
     });
 });
+//TODO: all posts should by default bulk add.
+server.post('/service/bulk-add', (req, res) => {
+    serviceModel.insertMany(req.body.services).then((result) => {
+        res.send('Data inserted');
+    }).catch(err => {
+        res.send(err);
+    });
+});    
 server.get('/service/find-all', (req, res, next) => { //Find all services
     serviceModel.find((error, data) => {
         if(error) {
