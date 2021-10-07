@@ -314,6 +314,21 @@ server.delete('/events', (req, res, next) => { //Delete an event with matching f
     });
 });
 
+
+
+server.get('/service/find-all/:id', (req, res, next) => { //Find all services/activity by event
+    eventModel.findById(req.params.id, (error, data) => {
+        if(error){
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
+
+
 //Services CRUD
 server.post('/service', (req, res, next) => { //Add a service using JSON input
     serviceModel.create(req.body, (error, data) => {
