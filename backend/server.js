@@ -12,6 +12,7 @@ let personModel = require('./model/person');
 const { resourceLimits } = require("worker_threads");
 const { events } = require("./model/event");
 const e = require("express");
+const { send } = require("process");
 
 mongoose.connect(process.env.MONGO_URL).then(() => {
     console.log("Database connection Success!");
@@ -194,6 +195,18 @@ server.put('/person/delete-event/:id', (req, res) => { //Delete a persons event 
             } 
         } 
     });
+});
+server.get('/person/event-count/:id', (req, res, next) => { //Find the number of events a person has been to by their personId
+    personModel.aggregate()
+        .match({ "personId": Number(req.params.id) })
+        .project( { "_id": 0, "eventCount": { "$size": "$events" } })
+        .exec(function (err, result) {
+                if(err) {
+                    res.send(err).end();
+                }    
+                //console.log(result[0].count); 
+                res.json(result);
+            });    
 });
 
 //Event CRUD
