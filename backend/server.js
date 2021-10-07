@@ -244,6 +244,24 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
+//Find event, return zip codes of attendees
+server.get('/events/:id', (req, res, next) => {
+    eventModel.findOne({eventId:req.params.id}, (error, data) =>{
+        if(error){
+            return next(error);
+        }
+        else{
+            if (!result) {
+                res.sendStatus(404).send('Event was not found').end();
+            }
+            else {
+                res.json(person.zipcode)
+            }
+
+        }
+    });
+});
+
 server.get('/event/services/find-all/:id', (req, res, next) => { //GET a list of an events services by eventId
     eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, evnt) {
         if(err) {
