@@ -259,6 +259,18 @@ server.get('/service/find-all', (req, res, next) => { //Find all services
         }
     });
 });
+
+server.get('/service/get-services', (req, res, next) =>{  //Find total services/activities by its event
+    serviceModel.find({eventId: req.params.id}, (error, data) =>{
+        if(error){
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
 server.get('/service/:id', (req, res, next) => { //GET a service by its ID
     serviceModel.find({serviceId: req.params.id}, (error, data) => {
         if(error) {
