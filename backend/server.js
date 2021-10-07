@@ -244,6 +244,16 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
+server.get('/event/services/find-all/:id', (req, res, next) => { //GET a list of an events services by eventId
+    eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, evnt) {
+        if(err) {
+            res.status(500).send(err);
+        }
+        else {
+            res.json(evnt.services);
+        }
+    });
+});
 server.get('/event/services/:id', (req, res, next) => { //GET a service by its document ID
     serviceModel.findById(req.params.id, (error, data) => {
         if(error) {
@@ -253,6 +263,17 @@ server.get('/event/services/:id', (req, res, next) => { //GET a service by its d
             res.json(data);
         }
     });
+});
+server.get('/events/attendance/:id/:zipcode', (req, res, next) => {
+    personModel.aggregate()
+    .match( { "events.eventId": Number(req.params.id), "zipCode": req.params.zipcode })
+    .count("RSVPs")
+    .exec(function (err, result) {
+            if(err) {
+                res.send(err).end();
+            }    
+            res.json(result);
+        });    
 });
 server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
     eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
