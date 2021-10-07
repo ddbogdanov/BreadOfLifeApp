@@ -34,11 +34,6 @@ let personSchema = new Schema({
     ethnicity: {
         type: String
     },
-
-    /**
-     *   Not sure if this is a proper subdocument. Maybe do events: [eventSchema] instead. 
-     *   But that would store ALL information about an event which is not exactly what we want
-     */
     events: [{
         eventId: {
             type: Number,

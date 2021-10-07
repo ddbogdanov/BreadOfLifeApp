@@ -217,6 +217,16 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
+server.get('/event/services/:id', (req, res, next) => { //GET a service by its ID
+    serviceModel.findById(req.params.id, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
 server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
     eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
@@ -259,18 +269,6 @@ server.get('/service/find-all', (req, res, next) => { //Find all services
         }
     });
 });
-
-server.get('/service/get-services', (req, res, next) =>{  //Find total services/activities by its event
-    serviceModel.find({eventId: req.params.id}, (error, data) =>{
-        if(error){
-            return next(error);
-        }
-        else {
-            res.json(data);
-        }
-    });
-});
-
 server.get('/service/:id', (req, res, next) => { //GET a service by its ID
     serviceModel.find({serviceId: req.params.id}, (error, data) => {
         if(error) {
