@@ -230,6 +230,15 @@ server.get('/events/find-all', (req, res, next) => { //GET all events
         }
     });
 });
+server.get('/events/find-all/currentevent', (req, res, next) => { // find the list of 3 current recent events
+    eventModel.find({},{name:1,date:1}).sort({date:-1}).limit(3)
+        .exec(function (err, result) {
+                if(err) {
+                    res.send(err).end();
+                }     
+                res.json(result);
+            });    
+});
 server.get('/events/:id', (req, res, next) => { //GET an event by its ID
     eventModel.find({eventId: req.params.id}, (error, data) => {
         if(error) {
