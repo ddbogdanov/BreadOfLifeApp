@@ -18,9 +18,13 @@ Option B: Bread of Life
 
 ## **How To Run**
 In a terminal make sure you are under the "../backend" directory, then execute one of the following:
+
 **With Nodemon**
+
 *nodemon server.js*
+
 **With node.js**
+
 *node server.js*
 
 ## **Samples**
