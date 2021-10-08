@@ -83,7 +83,7 @@ server.delete('/person', (req, res, next) => { //Delete a person with matching f
 });
 
 // Person Event CRUD
-// TODO: Better Error Handling. Not all error cases are covered. Also this code is a headache to read.
+// TODO: Better Error Handling. Also this code is a headache to read.
 /** 
  * Most of this code came from here:
  * https://dev.to/dance_nguyen/adding-updating-and-removing-subdocuments-with-mongoose-1dj5 
@@ -234,6 +234,28 @@ server.get('/events/get-most-recent', (req, res, next) => { //Get a list of 3 mo
                 res.json(result);
             });    
 });
+server.get('/events/count-exact', (req, res) => { //Get a count of events where services provided match exactly
+    eventModel.aggregate()
+    .match( { "services": req.body.services })
+    .count("Matches")
+    .exec(function (err, result) {
+            if(err) {
+                res.send(err).end();
+            }    
+            res.json(result);
+        });    
+});
+server.get('/events/count-similar', (req, res) => { //Get a count of events where a service exists
+    eventModel.aggregate()
+    .match({services: { $in: [req.body.services[0]]}})
+    .count("Matches")
+    .exec(function (err, result) {
+            if(err) {
+                res.send(err).end();
+            }    
+            res.json(result);
+        });    
+});
 server.get('/events/:id', (req, res, next) => { //GET an event by its ID
     eventModel.find({eventId: req.params.id}, (error, data) => {
         if(error) {
@@ -244,24 +266,6 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
         }
     });
 });
-//Find event, return zip codes of attendees
-server.get('/events/:id', (req, res, next) => {
-    eventModel.findOne({eventId:req.params.id}, (error, data) =>{
-        if(error){
-            return next(error);
-        }
-        else{
-            if (!result) {
-                res.sendStatus(404).send('Event was not found').end();
-            }
-            else {
-                res.json(person.zipcode)
-            }
-
-        }
-    });
-});
-
 server.get('/event/services/find-all/:id', (req, res, next) => { //GET a list of an events services by eventId
     eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, evnt) {
         if(err) {
@@ -282,7 +286,7 @@ server.get('/event/services/:id', (req, res, next) => { //GET a service by its d
         }
     });
 });
-server.get('/events/attendance/:id/:zipcode', (req, res, next) => {
+server.get('/events/attendance/:id/:zipcode', (req, res, next) => { //Get event attendance by eventId and zipcode
     personModel.aggregate()
     .match( { "events.eventId": Number(req.params.id), "zipCode": req.params.zipcode })
     .count("RSVPs")
@@ -313,9 +317,8 @@ server.delete('/events', (req, res, next) => { //Delete an event with matching f
         }
     });
 });
-
-
-
+/*
+// This one is not needed
 server.get('/service/find-all/:id', (req, res, next) => { //Find all services/activity by event
     eventModel.findById(req.params.id, (error, data) => {
         if(error){
@@ -326,8 +329,23 @@ server.get('/service/find-all/:id', (req, res, next) => { //Find all services/ac
         }
     });
 });
-
-
+// This one does not work.
+server.get('/events/:id', (req, res, next) => {
+    eventModel.findOne({eventId:req.params.id}, (error, data) =>{
+        if(error){
+            return next(error);
+        }
+        else{
+            if (!result) {
+                res.sendStatus(404).send('Event was not found').end();
+            }
+            else {
+                res.json(person.zipcode)
+            }
+        }
+    });
+});
+*/
 
 //Services CRUD
 server.post('/service', (req, res, next) => { //Add a service using JSON input
@@ -340,7 +358,7 @@ server.post('/service', (req, res, next) => { //Add a service using JSON input
         }
     });
 });
-//TODO: all posts should by default bulk add.
+//TODO: all POST requests should by default bulk add.
 server.post('/service/bulk-add', (req, res) => {
     serviceModel.insertMany(req.body.services).then((result) => {
         res.send('Data inserted');
