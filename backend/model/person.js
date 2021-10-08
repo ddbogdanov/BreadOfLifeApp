@@ -47,6 +47,9 @@ let personSchema = new Schema({
         },
         requireAdditionalSupport: {
             type: String
+        },
+        referral: {
+            type: String
         }
     }]
 

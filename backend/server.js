@@ -141,7 +141,9 @@ server.put('/person/update-event/:id', (req, res) => { //Update a persons event 
             }
             else {
                 result.events.id(req.body._id).receiveVaccine = req.body.receiveVaccine;
+                result.events.id(req.body._id).vaccinePreference = req.body.vaccinePreference;
                 result.events.id(req.body._id).requireAdditionalSupport = req.body.requireAdditionalSupport;
+                result.events.id(req.body._id).referral = req.body.referral;
                 result.markModified('events'); 
                 result.save(function(saveerr, saveresult) {
                 if (!saveerr) {
@@ -387,7 +389,7 @@ server.get('/service/:id', (req, res, next) => { //GET a service by its ID
     });
 });
 server.put('/service/:id', (req, res, next) => { //Edit a service by its ID, allowing change of any data with JSON input
-    serviceModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {
+    serviceModel.findOneAndUpdate({ serviceId: req.params.id}, { $set: req.body }, (error, data) => {
         if(error) {
             return next(error);
         }
