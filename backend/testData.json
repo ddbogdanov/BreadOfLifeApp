@@ -1,0 +1,25 @@
+{
+    "personId": 0,
+	"firstName": "John",
+	"lastName": "Doe",
+	"phoneNumber": 2815555555,
+	"zipCode": "77049",
+	"receivedVaccine": true,
+	"numChildren": 0,
+	"elderly":false,
+	"veteran":true,
+	"ethnicity": "white",
+	"eventId":0,
+    "receiveVaccine": false,
+    "vaccinePreference": "moderna",
+    "requireAdditionalSupport": "no",
+
+    "name": "October Food Distribution",
+    "services":"food distribution",
+    "location": "BBVA stadium",
+    "date": "2021-10-16",
+
+    "serviceId": 0,
+    "serviceName": "food distribution",
+    "description": "Food donations are distributed to the public"
+}
