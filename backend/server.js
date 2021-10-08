@@ -262,6 +262,20 @@ server.get('/events/:id', (req, res, next) => {
     });
 });
 
+server.get('/events/service-count', (req, res, next) => {//Find number of events based on selected service
+    serviceModel.aggregate()
+    .groupBy(services)
+    .project({"services": 0, "eventNumber": {"$size": "$events"} })
+    .exec(function(error, result){
+        if(error){
+            res.send(error).end();
+        }
+        else{
+            res.json(result);
+        }
+    });
+});
+
 server.get('/event/services/find-all/:id', (req, res, next) => { //GET a list of an events services by eventId
     eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, evnt) {
         if(err) {
