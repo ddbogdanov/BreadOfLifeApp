@@ -1,7 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const morgan = require("morgan");
-require("dotenv").config({ path: '../.env'});
+require("dotenv").config({ path: './.env'});
 
 const server = express(); 
 
@@ -19,7 +19,6 @@ const PORT = process.env.PORT || 3000;
 
 server.use(express.json());
 server.use(morgan("dev"));
-
 //Person CRUD
 server.post('/person', (req, res, next) => { //Add a person, using full information from a JSON input
     personModel.create(req.body, (error, data) => {
