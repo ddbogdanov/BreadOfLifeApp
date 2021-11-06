@@ -10,10 +10,17 @@
                 <router-link to="/">HOME</router-link>
             </li>
             <li class="nav-item">
+                <router-link to="/manager">MANAGERS</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/rsvp">RSVP</router-link>
+            </li>
+            <li class="nav-item">
                 <router-link to="/about">ABOUT</router-link>
             </li>
         </ul>
     </nav>
+    <router-view/>
 </template>
 
 <style scoped>
@@ -23,13 +30,13 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        padding-left: 40px;
-        padding-right: 40px;
-        padding-top: 20px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        padding-top: 1.3rem;
 
         font-family: "Roboto",sans-serif;
         font-weight: 600;
-        font-size: 16px;
+        font-size: 1rem;
     }
 
     .logo {
