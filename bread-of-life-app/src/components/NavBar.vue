@@ -1,49 +1,57 @@
 <template>
-    <div class="top-nav">
-        <img alt="BOL Logo" src="../assets/bol_logo.png" />
-        <li class="nav-item">
-            <router-link to="/about">ABOUT</router-link>
-        </li>
-        <li class="nav-item">
-            <router-link to="/">HOME</router-link>
-        </li>
-    </div>
+    <nav class="top-nav">
+        <div>
+            <a href="./">
+                <img class="logo" alt="BOL Logo" src="../assets/bol_logo.png" />
+            </a>
+        </div>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <router-link to="/">HOME</router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/about">ABOUT</router-link>
+            </li>
+        </ul>
+    </nav>
 </template>
 
 <style scoped>
     .top-nav {
         background-color: #ffffff;
-        overflow: hidden;
-        min-height: 80px;
-        max-height: 80px;
-    }
-    .nav-item {
-        display: table-cell;
-        float: right;
-        vertical-align: middle;
-    }
-    .top-nav a {
-        float: right;
-        display: table-cell;
         color: #000000;
-        text-align: center;
-        vertical-align: middle;
-        padding: 14px 16px;
-        text-decoration: none;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding-left: 40px;
+        padding-right: 40px;
+        padding-top: 20px;
+
         font-family: "Roboto",sans-serif;
         font-weight: 600;
         font-size: 16px;
     }
+
+    .logo {
+        height: 70px;
+    }
+    .nav-list {
+        list-style-type: none;
+        margin-left:auto;
+    }
+    .nav-list .nav-item {
+        display: inline-block;
+        padding: .5rem 1rem;
+    }
+
+    .top-nav a {
+        color: #000000;
+        text-decoration: none;
+    }
     .top-nav a:hover {
         color: #F99929
     }
-    .top-nav a:focus {
+    .top-nav a.router-link-active {
         color: #23A455
-    }
-    img {
-        float: left;
-        max-width: 10%;
-        max-height: 10%;
-        object-fit: cover;
     }
 </style>
