@@ -1,52 +1,60 @@
 <template>
-  <form>
+  <form @submit="signmeUp" method="post">
     <label>First Name:</label>
-      <input type="String" required v-model = "firstName">
+      <input type="String" required v-model = "persondet.firstName">
     <label>Last Name:</label> 
-      <input type="String" required v-model = "lastName">
+      <input type="String" required v-model = "persondet.lastName">
     <label>Phone Number:</label>
-      <input type="Number" required v-model = "phoneNumber">
+      <input type="Number" required v-model = "persondet.phoneNumber">
     <label>Zip Code:</label>
-    <input type="Number" required v-model = "zipCode">
+    <input type="Number" required v-model = "persondet.zipCode">
     <label>Received Vaccine?</label>
     <div>
-      <input type="radio" value=True v-model="receiveVaccine" name="receiveVax">
+      <input type="radio" value=True v-model="persondet.receiveVaccine" name="receiveVax">
       <label>Yes</label>
-      <input type="radio" value=False v-model="receiveVaccine" name="receiveVax">
+      <input type="radio" value=False v-model="persondet.receiveVaccine" name="receiveVax">
       <label>No</label>
     </div>
+    <div>
     <label>num of Children?</label>
-    <input type="Number" required v-model = "numChildren" >
+    <input type="Number" required v-model = "persondet.numChildren">
+    </div>
     <label>Elderly?</label>
-    <div >
-      <input type="radio" value=True v-model="elderly" name="elderly" >
+    <div>
+      <input type="radio" value=True v-model="persondet.elderly" name="elderly">
       <label>Yes</label>
-      <input type="radio" value=False v-model="elderly" name="elderly" >
+      <input type="radio" value=False v-model="persondet.elderly" name="elderly">
       <label>No</label>
     </div>
     <label>Veteran?</label>
    <div>
-      <input type="radio" value=True v-model="veteran" name="veteran">
+      <input type="radio" value=True v-model="persondet.veteran" name="veteran">
       <label>Yes</label>
-      <input type="radio" value=False v-model="veteran" name="veteran">
+      <input type="radio" value=False v-model="persondet.veteran" name="veteran">
       <label>No</label>
     </div>
+    <div>
     <label>Ethnicity</label>
-    <select v-model=ethnicity>
+    <select v-model="persondet.ethnicity">
       <option value=Asian>Asian</option>
       <option value=African>African American</option>
       <option value=White>White</option>
       <option value=Hispanic>Hispanic</option>
       <option value=Islander>Pacific Islander</option>
     </select>
-    
+    </div>
+    <div>
+      <button type="submit">Post</button>
+      </div>
   </form>
 </template>
 
 <script>
+import axios from "axios";
 export default {
     data(){
         return {
+          persondet:{
             firstName: '',
             lastName: '',
             phoneNumber: '',
@@ -56,9 +64,19 @@ export default {
             elderly: '',
             veteran: '',
             ethnicity: ''
+          }
         }
-    }
+    },
+methods:{
+  signmeUp(e)
+  {
+    this.axios.post(process.env.VUE_APP_BASE_API_URL + "/person")
+    .then(()=>{
 
+    })
+    e.preventDefault();
+  }
+}
 }
 </script>
 
