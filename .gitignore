@@ -1,4 +1,5 @@
 backend/.env
+bread-of-life-app/.env
 
 .DS_Store
 node_modules

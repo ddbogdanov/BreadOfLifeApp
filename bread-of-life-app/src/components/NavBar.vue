@@ -20,7 +20,6 @@
             </li>
         </ul>
     </nav>
-    <router-view/>
 </template>
 
 <style scoped>

@@ -1,5 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const morgan = require("morgan");
 require("dotenv").config({ path: './.env'});
 
@@ -17,6 +18,7 @@ mongoose.connect(process.env.MONGO_URL).then(() => {
 
 const PORT = process.env.PORT || 3000;
 
+server.use(cors());
 server.use(express.json());
 server.use(morgan("dev"));
 //Person CRUD
