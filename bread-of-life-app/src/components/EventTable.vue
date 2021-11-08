@@ -22,7 +22,7 @@
                             <el-input v-model="search" size="mini" placeholder="Type to search"/>
                         </template>
                         <template #default="scope">
-                            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"> Edit </el-button>
+                            <el-button size="mini" @click="$router.push({name: 'EventEditForm', params: {id: scope.row.eventId}})"> Edit </el-button>
                             <el-button size="mini" type="danger" @click.stop="handleDelete(scope.$index, scope.row)">Delete</el-button>
                         </template>
                     </el-table-column>
