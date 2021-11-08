@@ -31,7 +31,7 @@
         align-items: center;
         padding-left: 2rem;
         padding-right: 2rem;
-        padding-top: 1.3rem;
+        padding-top: .6rem;
 
         font-family: "Roboto",sans-serif;
         font-weight: 600;

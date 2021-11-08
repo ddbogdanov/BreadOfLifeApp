@@ -12,10 +12,6 @@ let eventSchema = new Schema({
     },
     services: {
         type: [String] //Stores service document IDs to represent services offered at the event.
-        /**
-         * TODO: Currently this is a very loose relationship - if a service is deleted there is no way to see what it was. 
-         * Should think about a solution to this. Maybe there is a mongodb relationship thing.
-         */
     },
     location: {
         type: String

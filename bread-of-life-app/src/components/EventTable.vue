@@ -1,61 +1,119 @@
 <template>
-    <div class="manager">
-        <h1>Manager type stuff goes here</h1>
-        <section>
-            <h2>Events</h2>
-            <div>
-                <el-container>
-                    <el-aside>
-                        <el-menu>
-                            <el-menu-item-group>
-                                <el-sub-menu index="1">
-                                    <template #title>Group 1</template>
-                                    <el-menu-item index="1-1">Option 1</el-menu-item>
-                                </el-sub-menu>
-                            </el-menu-item-group>
-                        </el-menu>
-                    </el-aside>
-                    <el-main>
-                        <el-table :data="eventsData">
-                            <el-table-column prop="name" label="Event Name" width="150"></el-table-column>
-                            <el-table-column prop="location" label="Location" width="150"></el-table-column>
-                            <el-table-column prop="date" label="Date" width="150" :formatter="dateFormatter"></el-table-column>
+    <section class="event-section">
+        <h2>Events</h2>
+        <el-container class="table-container" >
+            <el-main class="main-table-container">
+
+                <el-table :data="eventsData.filter((data) => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+                          class="main-table" max-height="500" :default-sort="{prop: 'date', order: 'descending'}">
+
+                    <el-table-column type="expand">
+                        <el-table :data="servicesData" style="padding-left: 45px">
+                            <el-table-column prop="serviceName" label="Service(s)"></el-table-column>
                         </el-table>
-                    </el-main>
-                </el-container>
-            </div>
-        </section>
-    </div>
+                    </el-table-column>
+                    <el-table-column prop="date" label="Date" sortable :formatter="dateFormatter"></el-table-column>
+                    <el-table-column label="Event Info" class="column">
+                        <el-table-column prop="name" label="Event Name"></el-table-column>
+                        <el-table-column prop="location" label="Location"></el-table-column>
+                    </el-table-column>
+                    <el-table-column align="right">
+                        <template #header>
+                            <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                        </template>
+                        <template #default="scope">
+                            <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"> Edit </el-button>
+                            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </el-main>
+        </el-container>
+    </section>
 </template>
 
 <script>
-    // import RsvpRelatedComponent from "@/components/RsvpRelatedComponent.vue";
     import axios from "axios";
     import moment from 'moment';
-    //v-slot="row"
     export default {
-        name: "Manager",
-
         data() {
             return {
-                eventsData: []
+                eventsData: [],
+                search: '',
+
+                servicesData: [] //TODO: Dynamically load based on what event is expanded.
             }
         },
         created() {
-            this.getEvents();
+            this.getEvents()
+            //this.getServices();
+            //this.getServicesByEvent(1)
         },
         methods: {
             getEvents() {
                 let apiUrl =  process.env.VUE_APP_BASE_API_URL + "/events/find-all"
                 axios.get(apiUrl).then(res => {
-                    this.eventsData = res.data;
+                    this.eventsData = res.data
                 }).catch(error => {
                     console.log(error)
                 });
             },
+            getServices() {
+                let apiUrl =  process.env.VUE_APP_BASE_API_URL + "/service/find-all"
+                axios.get(apiUrl).then(res => {
+                    this.servicesData = res.data
+                }).catch(error => {
+                    console.log(error)
+                });
+            },
+            getServicesByEvent(row) {
+                let apiUrl = process.env.VUE_APP_BASE_API_URL + "/event/services/find-all/" + row.id
+                axios.get(apiUrl).then(res => {
+                    alert("get services by eventid: " + res.data + " " + row.id)
+                    this.servicesData = res.data
+
+                }).catch(error => {
+                    alert(error)
+                    console.log(error)
+                })
+            },
             dateFormatter(row) {
                 return moment(row.date).format('MM-DD-YYYY hh:mm A');
+            },
+
+
+            handleEdit(index, row) {
+                alert("Editing: " + index.toString() + row.toString());
+            },
+            handleDelete(index, row) {
+                let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + row.eventId
+                if(window.confirm("Are you sure you want to delete this event?")) {
+                    axios.delete(apiUrl).then(() => {
+                        this.eventsData.splice(index, 1)
+                    }).catch(error => {
+                        alert(error);
+                    });
+                }
             }
         }
     }
 </script>
+
+<style scoped>
+    .event-section {
+        background-color: #6197C4;
+        color: #FFFFFF;
+        width: 100%;
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+        min-height: 100%;
+    }
+    .table-container {
+        min-height:100%;
+        max-height: 100%;
+    }
+    .main-table {
+        display: inline-block;
+        width: 70%;
+    }
+</style>

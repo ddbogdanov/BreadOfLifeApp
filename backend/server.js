@@ -270,15 +270,33 @@ server.get('/events/:id', (req, res, next) => { //GET an event by its ID
     });
 });
 server.get('/event/services/find-all/:id', (req, res, next) => { //GET a list of an events services by eventId
-    eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, evnt) {
+    eventModel.findOne({ eventId: req.params.id }).populate('services').exec(function(err, event) {
         if(err) {
             res.status(500).send(err);
         }
         else {
-            res.json(evnt.services);
+            const promises = [];
+            for(let i=0; i < event.services.length; ++i) {
+                promises.push(new Promise(function(res, rej) {
+                    serviceModel.findById({_id: event.services[i] }, function(error, data) {
+                        if(error) {
+                            rej(error);
+                        }
+                        if(data) {
+                            res(data)
+                        }
+                    })
+                }))
+            }
+            Promise.all(promises).then(services => {
+                res.json(services)
+            }).catch(e => {
+                res.json(e)
+            })
         }
     });
 });
+
 server.get('/event/services/:id', (req, res, next) => { //GET a service by its document ID
     serviceModel.findById(req.params.id, (error, data) => {
         if(error) {
@@ -312,6 +330,16 @@ server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, all
 });
 server.delete('/events', (req, res, next) => { //Delete an event with matching fields from JSON input
     eventModel.findOneAndRemove(req.body, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.send('Removed an event');
+        }
+    });
+});
+server.delete('/events/:id', (req, res, next) => { //Delete an event with matching fields from JSON input
+    eventModel.findOneAndRemove({eventId: req.params.id}, (error, data) => {
         if(error) {
             return next(error);
         }
