@@ -5,7 +5,7 @@
             <el-main class="main-table-container">
 
                 <el-table :data="eventsData.filter((data) => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-                          class="main-table" max-height="500" :default-sort="{prop: 'date', order: 'descending'}">
+                          class="main-table" max-height="500" :default-sort="{prop: 'date', order: 'descending'}" @expand-change="getServicesByEvent">
 
                     <el-table-column type="expand">
                         <el-table :data="servicesData" style="padding-left: 45px">
@@ -23,7 +23,7 @@
                         </template>
                         <template #default="scope">
                             <el-button size="mini" @click="handleEdit(scope.$index, scope.row)"> Edit </el-button>
-                            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+                            <el-button size="mini" type="danger" @click.stop="handleDelete(scope.$index, scope.row)">Delete</el-button>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -41,37 +41,28 @@
                 eventsData: [],
                 search: '',
 
-                servicesData: [] //TODO: Dynamically load based on what event is expanded.
+                servicesData: []
             }
         },
         created() {
             this.getEvents()
-            //this.getServices();
-            //this.getServicesByEvent(1)
         },
         methods: {
             getEvents() {
                 let apiUrl =  process.env.VUE_APP_BASE_API_URL + "/events/find-all"
+
                 axios.get(apiUrl).then(res => {
                     this.eventsData = res.data
                 }).catch(error => {
                     console.log(error)
                 });
             },
-            getServices() {
-                let apiUrl =  process.env.VUE_APP_BASE_API_URL + "/service/find-all"
-                axios.get(apiUrl).then(res => {
-                    this.servicesData = res.data
-                }).catch(error => {
-                    console.log(error)
-                });
-            },
-            getServicesByEvent(row) {
-                let apiUrl = process.env.VUE_APP_BASE_API_URL + "/event/services/find-all/" + row.id
-                axios.get(apiUrl).then(res => {
-                    alert("get services by eventid: " + res.data + " " + row.id)
-                    this.servicesData = res.data
+            getServicesByEvent(row, expandedRows) {
+                this.checkExpandedOnlyOne(row, expandedRows)
+                let apiUrl = process.env.VUE_APP_BASE_API_URL + "/event/services/find-all/" + row.eventId
 
+                axios.get(apiUrl).then(res => {
+                    this.servicesData = res.data
                 }).catch(error => {
                     alert(error)
                     console.log(error)
@@ -87,6 +78,7 @@
             },
             handleDelete(index, row) {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + row.eventId
+
                 if(window.confirm("Are you sure you want to delete this event?")) {
                     axios.delete(apiUrl).then(() => {
                         this.eventsData.splice(index, 1)
@@ -94,6 +86,12 @@
                         alert(error);
                     });
                 }
+            },
+
+            checkExpandedOnlyOne(row, expanded) {
+                if(document.getElementsByClassName('el-table__expand-icon--expanded').length > 0)
+                    if(expanded)
+                        document.getElementsByClassName('el-table__expand-icon--expanded')[0].click()
             }
         }
     }
