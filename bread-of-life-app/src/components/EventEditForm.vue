@@ -56,7 +56,8 @@ import axios from "axios"
                 })
             },
             onCancel() {
-                this.$refs.formRef.resetFields();
+                this.$refs.formRef.resetFields()
+                this.$router.push('/manager')
             }
         }
     };

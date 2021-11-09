@@ -69,7 +69,7 @@
                 })
             },
             dateFormatter(row) {
-                return moment(row.date).format('MM-DD-YYYY hh:mm A');
+                return moment(row.date).format('MM-DD-YYYY');
             },
 
 
@@ -103,8 +103,7 @@
         color: #FFFFFF;
         width: 100%;
         padding-top: 1rem;
-        padding-bottom: 1rem;
-        min-height: 100%;
+        min-height: 50vh;
     }
     .table-container {
         min-height:100%;
