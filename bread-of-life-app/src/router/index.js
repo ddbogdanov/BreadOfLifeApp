@@ -30,6 +30,11 @@ const routes = [
         path: "/manager/edit-event/:id",
         name: "EventEditForm",
         component: () => import('../components/EventEditForm.vue')
+    },
+    {
+        path: "/manager/edit-service/:id",
+        name: "ServiceEditForm",
+        component: () => import('../components/ServiceEditForm.vue')
     }
 ];
 

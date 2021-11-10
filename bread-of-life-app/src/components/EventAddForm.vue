@@ -1,5 +1,5 @@
 <template>
-    <section class="event-edit-form-container">
+    <section class="event-add-form-container">
         <div class="event-edit-form">
             <h1>Add An Event</h1>
             <el-form ref="formRef" :model="event" label-position="right" label-width="100px">
@@ -86,8 +86,9 @@
 
 
 <style scoped>
-    .event-edit-form-container {
+    .event-add-form-container {
         background-color: #FBCB93;
+        color: #000000;
         width: 100%;
         padding-top: 1rem;
         min-height: 50vh;

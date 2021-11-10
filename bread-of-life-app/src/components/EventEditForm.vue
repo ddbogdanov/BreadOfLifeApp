@@ -1,6 +1,6 @@
 <template>
     <div class="event-edit-form">
-        <h1>Edit Events Here</h1>
+        <h1>Edit Event</h1>
         <el-form ref="formRef" :model="event" label-position="right" label-width="100px">
             <el-form-item label="Event Name" prop="name">
                 <el-input v-model="event.name"></el-input>

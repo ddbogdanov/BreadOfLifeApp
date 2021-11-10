@@ -8,7 +8,7 @@
                           class="main-table" max-height="500" :default-sort="{prop: 'date', order: 'descending'}" @expand-change="getServicesByEvent">
 
                     <el-table-column type="expand">
-                        <el-table :data="servicesData" style="padding-left: 45px">
+                        <el-table :data="servicesData" style="padding-left: 45px" max-height="200px">
                             <el-table-column prop="serviceName" label="Service(s)"></el-table-column>
                         </el-table>
                     </el-table-column>
@@ -45,10 +45,10 @@
             }
         },
         created() {
-            this.getEvents()
+            this.fetchEventsData()
         },
         methods: {
-            getEvents() {
+            fetchEventsData() {
                 let apiUrl =  process.env.VUE_APP_BASE_API_URL + "/events/find-all"
 
                 axios.get(apiUrl).then(res => {
@@ -70,11 +70,6 @@
             },
             dateFormatter(row) {
                 return moment(row.date).format('MM-DD-YYYY');
-            },
-
-
-            handleEdit(index, row) {
-                alert("Editing: " + index.toString() + row.toString());
             },
             handleDelete(index, row) {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + row.eventId
@@ -100,7 +95,7 @@
 <style scoped>
     .event-section {
         background-color: #6197C4;
-        color: #FFFFFF;
+        color: #000000;
         width: 100%;
         padding-top: 1rem;
         min-height: 50vh;

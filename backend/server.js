@@ -427,8 +427,8 @@ server.put('/service/:id', (req, res, next) => { //Edit a service by its ID, all
         }
     });
 });
-server.delete('/service', (req, res, next) => { //Delete a service with matching fields from JSON input. *MAY NOT BE NECESSARY*
-    serviceModel.findOneAndRemove(req.body, (error, data) => {
+server.delete('/service/:id', (req, res, next) => { //Delete a service with matching fields from JSON input. *MAY NOT BE NECESSARY*
+    serviceModel.findOneAndRemove({serviceId: req.params.id}, (error, data) => {
         if(error) {
             return next(error);
         }
