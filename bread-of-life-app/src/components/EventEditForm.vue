@@ -8,6 +8,11 @@
             <el-form-item label="Location" prop="location">
                 <el-input v-model="event.location"></el-input>
             </el-form-item>
+            <el-form-item label="Services" prop="services">
+                <el-select v-model="event.services" multiple collapse-tags placeholder="Select Services" style="width: 100%">
+                    <el-option v-for="service in servicesData" :key="service._id" :label="service.serviceName" :value="service._id" fit-input-width="true"></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="Date" prop="date">
                 <el-date-picker
                         v-model="event.date"
@@ -32,17 +37,13 @@ import axios from "axios"
 
         data() {
             return {
-                event: { }
+                event: { },
+                servicesData: []
             }
         },
         created() {
-            let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + this.$route.params.id
-
-            axios.get(apiUrl).then((res) => {
-                this.event = res.data[0]
-            }).catch(error => {
-                alert(error)
-            })
+            this.fetchEventsData()
+            this.fetchServicesData()
         },
         methods: {
             onSubmit() {
@@ -58,6 +59,25 @@ import axios from "axios"
             onCancel() {
                 this.$refs.formRef.resetFields()
                 this.$router.push('/manager')
+            },
+
+            fetchEventsData() {
+                let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + this.$route.params.id
+
+                axios.get(apiUrl).then((res) => {
+                    this.event = res.data[0]
+                }).catch(error => {
+                    alert(error)
+                })
+            },
+            fetchServicesData() {
+                let apiUrl = process.env.VUE_APP_BASE_API_URL + '/service/find-all'
+
+                axios.get(apiUrl).then((res) => {
+                    this.servicesData = res.data
+                }).catch(error => {
+                    alert(error)
+                })
             }
         }
     };

@@ -10,20 +10,20 @@
                     <el-input v-model="event.location"></el-input>
                 </el-form-item>
                 <el-form-item>
-                    <el-col>
+                    <el-col style="min-width:50%">
                         <el-form-item label="Services" prop="services" style="margin-left:-100px;">
-                            <el-select v-model="event.services" multiple collapse-tags placeholder="Select Services">
+                            <el-select v-model="event.services" multiple collapse-tags placeholder="Select Services" style="width:100%">
                                 <el-option v-for="service in servicesData" :key="service._id" :label="service.serviceName" :value="service._id" fit-input-width="true"></el-option>
                             </el-select>
                         </el-form-item>
                     </el-col>
-                    <el-col>
-                        <el-form-item label="Date" prop="date">
+                    <el-col style="min-width:50%">
+                        <el-form-item label="Date" prop="date"  label-width="50px">
                             <el-date-picker
                                     v-model="event.date"
                                     type="date"
                                     placeholder="Pick a date"
-
+                                    style="width: 100%"
                             ></el-date-picker>
                         </el-form-item>
                     </el-col>
