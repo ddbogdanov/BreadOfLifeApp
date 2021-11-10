@@ -39,6 +39,9 @@ let personSchema = new Schema({
             type: Number,
             required: true
         },
+        eventName: {
+            type: String
+        },
         receiveVaccine: {
             type: Boolean
         },
