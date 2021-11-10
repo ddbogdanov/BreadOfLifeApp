@@ -71,7 +71,8 @@
                     alert("Event: " + this.event.name + " Added!")
                     console.log(res.data)
 
-                    this.$router.go() //Reload page so table displays new data. Yes its lazy and there's a better way, no I dont care.
+                    //this.$router.go() //Reload page so table displays new data. Yes its lazy and there's a better way, no I dont care.
+                    this.$router.push('/manager')
                 }).catch(error => {
                     alert(error)
                     this.$router.go()
@@ -79,6 +80,7 @@
             },
             onCancel() {
                 this.$refs.formRef.resetFields();
+                this.$router.push('/manager')
             }
         }
     };
@@ -87,11 +89,10 @@
 
 <style scoped>
     .event-add-form-container {
-        background-color: #FBCB93;
+        background-color: #FFFFFF;
         color: #000000;
         width: 100%;
         padding-top: 1rem;
-        min-height: 50vh;
     }
     .event-edit-form {
         margin: 0 auto;

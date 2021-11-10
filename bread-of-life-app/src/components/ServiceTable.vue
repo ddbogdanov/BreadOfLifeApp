@@ -15,7 +15,14 @@
                         <el-table-column prop="serviceName" label="Service Name" sortable></el-table-column>
                         <el-table-column align="right">
                             <template #header>
-                                <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                                <el-row justify="end">
+                                    <el-col :span="16">
+                                        <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                                    </el-col>
+                                    <el-col :span="8">
+                                        <el-button size="mini" type="primary" @click="$router.push({name: 'ServiceAddForm'})"> Add Service </el-button>
+                                    </el-col>
+                                </el-row>
                             </template>
                             <template #default="scope">
                                 <el-button size="mini" @click="$router.push({name: 'ServiceEditForm', params: {id: scope.row.serviceId}})"> Edit </el-button>

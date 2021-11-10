@@ -32,9 +32,19 @@ const routes = [
         component: () => import('../components/EventEditForm.vue')
     },
     {
+        path: "/manager/add-event",
+        name: "EventAddForm",
+        component: () => import('../components/EventAddForm.vue')
+    },
+    {
         path: "/manager/edit-service/:id",
         name: "ServiceEditForm",
         component: () => import('../components/ServiceEditForm.vue')
+    },
+    {
+        path: "/manager/add-service",
+        name: "ServiceAddForm",
+        component: () => import('../components/ServiceAddForm.vue')
     }
 ];
 

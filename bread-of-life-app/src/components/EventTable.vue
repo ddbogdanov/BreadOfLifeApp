@@ -19,7 +19,12 @@
                     </el-table-column>
                     <el-table-column align="right">
                         <template #header>
-                            <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                            <el-row>
+                                <el-input v-model="search" size="mini" placeholder="Type to search"/>
+                            </el-row>
+                            <el-row justify="end" style="padding-top: 10px;">
+                                <el-button size="mini" type="primary" @click="$router.push({name: 'EventAddForm'})" style="width: 123px">Add Event</el-button>
+                            </el-row>
                         </template>
                         <template #default="scope">
                             <el-button size="mini" @click="$router.push({name: 'EventEditForm', params: {id: scope.row.eventId}})"> Edit </el-button>
