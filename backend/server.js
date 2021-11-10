@@ -115,7 +115,7 @@ server.put('/person/add-event/:id', (req, res) => { //Add an event to a person u
         } 
     });
 });
-server.put('/person/get-events/:id', (req, res) => { //Return a list of a persons events 
+server.get('/person/get-events/:id', (req, res) => { //Return a list of a persons events
     personModel.findOne({ personId: req.params.id }).populate('events').exec(function(err, person) {
         if(err) {
             res.status(500).send(err);
@@ -125,6 +125,19 @@ server.put('/person/get-events/:id', (req, res) => { //Return a list of a person
         }
     });
 });
+server.get('/person/get-event-rsvp/:personId/:eventId', (req, res) => { //Return a persons rsvp to a specific event
+    personModel.findOne({personId: req.params.personId}, function(err, result) {
+        if(err) {
+            res.send(err)
+        }
+        else {
+            let event = result.events.filter(function (event) {
+                return Number(event.eventId) === Number(req.params.eventId)
+            })
+            res.send(event)
+        }
+    })
+})
 /**
  * UPDATE EVENT
  * Requires the use of events subdocument ID 
@@ -317,6 +330,16 @@ server.get('/events/attendance/:id/:zipcode', (req, res, next) => { //Get event 
             }    
             res.json(result);
         });    
+});
+server.get('/event/attendance/:id', (req, res, next) => { //Get attendance of an event
+   personModel.aggregate()
+       .match({"events.eventId": Number(req.params.id)})
+       .exec(function(err, result) {
+           if(err) {
+               res.send(err).end()
+           }
+           res.json(result);
+       })
 });
 server.put('/events/:id', (req, res, next) => { //Edit an event by their ID, allowing change of any data with JSON input
     eventModel.findOneAndUpdate({ eventId: req.params.id}, { $set: req.body }, (error, data) => {

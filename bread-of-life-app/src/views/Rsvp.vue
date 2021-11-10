@@ -10,6 +10,7 @@ import RsvpForm from "@/components/RsvpForm.vue";
 
 export default {
   name: "Rsvp",
+
   components: {
     RsvpForm
   },

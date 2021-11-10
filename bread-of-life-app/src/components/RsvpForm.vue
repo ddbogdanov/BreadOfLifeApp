@@ -1,5 +1,5 @@
 <template>
-  <form @submit="signmeUp" >
+  <form>
     <label>First Name:</label>
       <input type="text" required v-model = "persondet.firstName">
     <label>Last Name:</label> 
@@ -14,9 +14,9 @@
     <input type="Number" required v-model = "persondet.zipCode">
     <label>Received Vaccine?</label>
     <div>
-      <input type="radio" value="1" v-model="persondet.receiveVaccine" name="receiveVax">
+      <input type="radio" v-bind:value="true" v-model="persondet.receivedVaccine" name="receivedVaccine">
       <label>Yes</label>
-      <input type="radio" value="0" v-model="persondet.receiveVaccine" name="receiveVax">
+      <input type="radio" v-bind:value="false" v-model="persondet.receivedVaccine" name="receivedVaccine">
       <label>No</label>
     </div>
     <div>
@@ -25,16 +25,16 @@
     </div>
     <label>Elderly?</label>
     <div>
-      <input type="radio" value="1" v-model="persondet.elderly" name="elderly">
+      <input type="radio" v-bind:value="true" v-model="persondet.elderly" name="elderly">
       <label>Yes</label>
-      <input type="radio" value="0" v-model="persondet.elderly" name="elderly">
+      <input type="radio" v-bind:value="false" v-model="persondet.elderly" name="elderly">
       <label>No</label>
     </div>
     <label>Veteran?</label>
    <div>
-      <input type="radio" value="1" v-model="persondet.veteran" name="veteran">
+      <input type="radio" v-bind:value="true" v-model="persondet.veteran" name="veteran">
       <label>Yes</label>
-      <input type="radio" value="0" v-model="persondet.veteran" name="veteran">
+      <input type="radio" v-bind:value="false" v-model="persondet.veteran" name="veteran">
       <label>No</label>
     </div>
     <div>
@@ -48,7 +48,7 @@
     </select>
     </div>
     <div>
-      <button type="submit">Post</button>
+      <button @click="signmeUp">Post</button>
       </div>
   </form>
 </template>
@@ -63,35 +63,39 @@ export default {
             lastName: '',
             phoneNumber: '',
             zipCode: '',
-            receiveVaccine: null,
+            receivedVaccine: '',
             numChildren: '',
-            elderly: null,
+            elderly: '',
             veteran: '',
             ethnicity: ''
           }
         }
     },
-methods:{
-  signmeUp(){
-    let apiURL='http://localhost:3000/person';
-    axios.post(apiURL, this.persondet).then(() => {
-      // this.$router.push('/')
-      this.persondet={
-          firstName:'',
-          lastName:'',
-          phoneNumber:'',
-          zipCode:'',
-          receiveVaccine:'',
-          numChildren:'',
-          elderly:'',
-          veteran:'',
-          ethnicity:''
+    methods: {
+      signmeUp(){
+        let apiURL='http://localhost:3000/person'
+
+          alert(JSON.stringify(this.persondet))
+        axios.post(apiURL, this.persondet).then((res) => {
+            alert("posted")
+            console.log(res.data)
+            this.$router.push('/rsvp')
+          //   this.persondet={
+          //       firstName:'',
+          //       lastName:'',
+          //       phoneNumber:'',
+          //       zipCode:'',
+          //       receiveVaccine: null,
+          //       numChildren:'',
+          //       elderly: null,
+          //       veteran: null,
+          //       ethnicity:''
+          // }
+        }).catch(error => {
+            alert(error);
+        });
+        }
       }
-    }).catch(error => {
-      this.errors.push("Error in form submission. " + error.response.data);
-    });
-    }
-  }
  }
 
 </script>
