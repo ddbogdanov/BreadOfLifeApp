@@ -1,6 +1,6 @@
 <template>
     <div class="service-add-form">
-        <h1>Edit Service</h1>
+        <h1>Add Service</h1>
         <el-form ref="formRef" :model="service" label-position="right" label-width="100px">
             <el-form-item label="Service Name" prop="serviceName">
                 <el-input v-model="service.serviceName"></el-input>

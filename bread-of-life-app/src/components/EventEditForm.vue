@@ -38,7 +38,7 @@ import axios from "axios"
         data() {
             return {
                 event: { },
-                servicesData: []
+                servicesData: [ ]
             }
         },
         created() {

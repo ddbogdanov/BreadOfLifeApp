@@ -12,7 +12,7 @@
                             <el-table-column prop="serviceName" label="Service(s)"></el-table-column>
                         </el-table>
                     </el-table-column>
-                    <el-table-column prop="date" label="Date" sortable :formatter="dateFormatter"></el-table-column>
+                    <el-table-column prop="date" label="Date" sortable :formatter="dateFormatter" width="100"></el-table-column>
                     <el-table-column label="Event Info" class="column">
                         <el-table-column prop="name" label="Event Name"></el-table-column>
                         <el-table-column prop="location" label="Location"></el-table-column>
@@ -45,9 +45,8 @@
         data() {
             return {
                 eventsData: [],
+                servicesData: [],
                 search: '',
-
-                servicesData: []
             }
         },
         created() {
@@ -112,6 +111,6 @@
     }
     .main-table {
         display: inline-block;
-        width: 70%;
+        width: 80%;
     }
 </style>
