@@ -53,7 +53,7 @@ const routes = [
         component: () => import('../components/ServiceAddForm.vue')
     },
     {
-        path: "/manager/event/chart/:id",
+        path: "/manager/event/chart/:id/:eventName",
         name: "AttendanceChart",
         // component: () => import('../components/AttendanceChart.vue')
         component: AttendanceChart

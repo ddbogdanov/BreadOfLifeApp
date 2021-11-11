@@ -1,18 +1,28 @@
 <template>
     <div class="container">
-        <h1>HELLO</h1>
-        <PieChart v-if="!loading" :label="labels" :chart-data="attendanceData"></PieChart>
+        <el-row align="middle">
+            <el-col :span="4" :pull="1">
+                <el-button type="danger" :icon="Back" round plain @click="$router.back()">Go Back</el-button>
+            </el-col>
+            <el-col :span="16">
+                <h1>Attendance By ZIP Code</h1>
+                <h1>For Event: {{this.$route.params.eventName}}</h1>
+            </el-col>
+        </el-row>
+        <PieChart v-if="!loading" :label="labels" :colors="colors" :chart-data="attendanceData"></PieChart>
     </div>
 </template>
 
 <script>
     import PieChart from './PieChart.vue'
+    import randomColor from "randomcolor" //Gets random colors that look somewhat nice together
     import axios from "axios"
 
     export default {
         data: () => {
             return {
                 labels: [],
+                colors: [],
                 attendanceData: [],
                 loading: false,
             }
@@ -26,7 +36,6 @@
         methods: {
             async fetchChartData() {
                 this.loading = true
-                alert(this.loading)
 
                 let apiUrlZips = process.env.VUE_APP_BASE_API_URL + '/person/get-unique-zipcodes'
 
@@ -37,18 +46,18 @@
                             + zipcode
                         axios.get(apiUrl).then((resp) => {
                             if(resp.data.length === 0) {
-                                alert("NO DATA FOR ZIPCODE: " + zipcode)
+                                //alert("NO DATA FOR ZIPCODE: " + zipcode)
+                                console.log("NO DATA FOR ZIPCODE: " + zipcode)
                             }
                             else {
-                                alert(JSON.stringify(resp.data[0].RSVPs))
+                                //alert(JSON.stringify(resp.data[0].RSVPs))
                                 this.labels.push(zipcode)
+                                this.colors.push(randomColor({luminosity: 'bright', hue: 'blue'}))
                                 this.attendanceData.push(resp.data[0].RSVPs)
 
-                                alert("FULL DATA:\n\n\n\n" + JSON.stringify(this.labels) + '\n\n\n\n' + JSON.stringify(this.attendanceData))
-
+                                //alert("FULL DATA:\n\n\n\n" + JSON.stringify(this.labels) + '\n\n\n\n' + JSON.stringify(this.attendanceData))
                                 if(res.data[res.data.length-1] === zipcode) { //On last iteration tell the app we're done loading. A bit hacky but i dont feel like making a counter hopefully this works
                                     this.loading = false
-                                    alert(this.loading)
                                 }
                             }
                         }).catch(error => {
@@ -58,7 +67,7 @@
                 }).catch(error => {
                     alert(error)
                 })
-            }
+            },
         }
     }
 </script>
