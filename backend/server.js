@@ -42,6 +42,16 @@ server.get('/person/find-all', (req, res, next) => { //GET all people
         }
     });
 });
+server.get('/person/get-unique-zipcodes', (req, res) => { //GET a list of unique zipcodes that have been RSVPd
+    personModel.find().distinct('zipCode',function(error, data) {
+        if(error) {
+            res.send(error)
+        }
+        else {
+            res.json(data)
+        }
+    })
+})
 server.get('/person/:id', (req, res, next) => { //GET a person by their ID
     personModel.find({personId: req.params.id}, (error, data) => {
         if(error) {
