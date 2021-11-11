@@ -7,7 +7,7 @@
                           class="main-table" max-height="500" :default-sort="{prop: 'lastName', order: 'descending'}">
 
                     <el-table-column type="expand" #default="scope">
-                        <el-table :data="persons[(scope.$index)+1].events" style="padding-left: 45px" max-height="200px">
+                        <el-table :data="persons[(scope.$index)].events" style="padding-left: 45px" max-height="200px">
                             <el-table-column prop="eventName" label="Event Name"></el-table-column>
                             <el-table-column prop="receiveVaccine" label="Receive Vaccine?"></el-table-column>
                             <el-table-column prop="vaccinePreference" label="Vaccine Preference"></el-table-column>

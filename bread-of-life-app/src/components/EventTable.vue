@@ -27,6 +27,7 @@
                             </el-row>
                         </template>
                         <template #default="scope">
+                            <el-button size="mini" @click="$router.push({name: 'AttendanceChart', params: {id: scope.row.eventId}})">Chart</el-button>
                             <el-button size="mini" @click="$router.push({name: 'EventAttendeesTable', params: {id: scope.row.eventId}})">View Attendees</el-button>
                             <el-button size="mini" type="success" plain @click="$router.push({name: 'EventEditForm', params: {id: scope.row.eventId}})"> Edit </el-button>
                             <el-button size="mini" type="danger" @click.stop="handleDelete(scope.$index, scope.row)">Delete</el-button>

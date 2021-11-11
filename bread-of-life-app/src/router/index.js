@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
+import AttendanceChart from "../components/AttendanceChart";
 
 const routes = [
     {
@@ -50,6 +51,12 @@ const routes = [
         path: "/manager/add-service",
         name: "ServiceAddForm",
         component: () => import('../components/ServiceAddForm.vue')
+    },
+    {
+        path: "/manager/event/chart/:id",
+        name: "AttendanceChart",
+        // component: () => import('../components/AttendanceChart.vue')
+        component: AttendanceChart
     }
 ];
 
