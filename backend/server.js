@@ -52,6 +52,16 @@ server.get('/person/get-unique-zipcodes', (req, res) => { //GET a list of unique
         }
     })
 })
+server.get('/person/:firstName/:lastName', (req, res, next) => { //GET a person by their first and last names
+    personModel.find({firstName: req.params.firstName, lastName: req.params.lastName}, (error, data) => {
+        if(error) {
+            return next(error);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
 server.get('/person/:id', (req, res, next) => { //GET a person by their ID
     personModel.find({personId: req.params.id}, (error, data) => {
         if(error) {
