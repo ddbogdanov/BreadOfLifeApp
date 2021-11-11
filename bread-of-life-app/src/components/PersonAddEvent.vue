@@ -8,6 +8,7 @@
       <input type="Number" required v-model = "eventdet.eventID">
       <label>Event Name:</label>
       <input type="String" required v-model = "eventdet.eventName">
+      <label>Received Vaccine?</label>
          <div>
       <input type="radio" value="1" v-model="eventdet.receiveVaccine" name="receiveVaccine">
       <label>Yes</label>
