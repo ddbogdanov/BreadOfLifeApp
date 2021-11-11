@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
-import AttendanceChart from "../components/AttendanceChart";
+import AttendanceChart from "../components/charts/AttendanceChart";
 
 const routes = [
     {
@@ -30,27 +30,27 @@ const routes = [
     {
         path: "/manager/edit-event/:id",
         name: "EventEditForm",
-        component: () => import('../components/EventEditForm.vue')
+        component: () => import('../components/forms/EventEditForm.vue')
     },
     {
         path: "/manager/add-event",
         name: "EventAddForm",
-        component: () => import('../components/EventAddForm.vue')
+        component: () => import('../components/forms/EventAddForm.vue')
     },
     {
         path: "/manager/event/attendees",
         name: "EventAttendeesTable",
-        component: () => import('../components/EventAttendeesTable.vue')
+        component: () => import('../components/tables/EventAttendeesTable.vue')
     },
     {
         path: "/manager/edit-service/:id",
         name: "ServiceEditForm",
-        component: () => import('../components/ServiceEditForm.vue')
+        component: () => import('../components/forms/ServiceEditForm.vue')
     },
     {
         path: "/manager/add-service",
         name: "ServiceAddForm",
-        component: () => import('../components/ServiceAddForm.vue')
+        component: () => import('../components/forms/ServiceAddForm.vue')
     },
     {
         path: "/manager/event/chart/:id/:eventName",

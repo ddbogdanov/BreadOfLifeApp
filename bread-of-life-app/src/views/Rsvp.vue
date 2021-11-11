@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import RsvpForm from "@/components/RsvpForm.vue";
+import RsvpForm from "@/components/forms/RsvpForm.vue";
 
 export default {
   name: "Rsvp",

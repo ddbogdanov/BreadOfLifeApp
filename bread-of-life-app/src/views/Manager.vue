@@ -5,9 +5,9 @@
 </template>
 
 <script>
-    import EventTable from "@/components/EventTable.vue"
-    import ServiceTable from "@/components/ServiceTable.vue"
-    import AttendeesTable from "@/components/AttendeesTable.vue";
+    import EventTable from "@/components/tables/EventTable.vue"
+    import ServiceTable from "@/components/tables/ServiceTable.vue"
+    import AttendeesTable from "@/components/tables/AttendeesTable.vue";
 
     export default {
         name: "Manager",
