@@ -86,7 +86,7 @@ export default {
                 veteran: '',
                 ethnicity: '',
             },
-            ethnicities: [
+            ethnicities: [ //List of possible ethnicities
                 {
                     ethnicity: 'American Indian or Alaska Native'
                 },
@@ -112,7 +112,7 @@ export default {
         onSubmit() {
             let apiUrl = process.env.VUE_APP_BASE_API_URL + '/person'
 
-            axios.post(apiUrl, this.person).then((res) => {
+            axios.post(apiUrl, this.person).then((res) => { //Add new person
                 alert("Thanks!")
                 console.log(res.data)
 

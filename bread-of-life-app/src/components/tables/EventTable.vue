@@ -63,7 +63,7 @@
                     console.log(error)
                 });
             },
-            getServicesByEvent(row, expandedRows) {
+            getServicesByEvent(row, expandedRows) { //triggered when an expandChange is detected. Provides row and expandedRows that tell us the state of the table, and the row that is expanded
                 this.checkExpandedOnlyOne(row, expandedRows)
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + "/event/services/find-all/" + row.eventId
 
@@ -74,7 +74,7 @@
                     console.log(error)
                 })
             },
-            dateFormatter(row) {
+            dateFormatter(row) { //date formatter for date column
                 return moment(row.date).format('MM-DD-YYYY');
             },
             handleDelete(index, row) {
@@ -89,7 +89,7 @@
                 }
             },
 
-            checkExpandedOnlyOne(row, expanded) {
+            checkExpandedOnlyOne(row, expanded) { //make sure only one row is expanded at a time since data is loaded dynamically for each expansion
                 if(document.getElementsByClassName('el-table__expand-icon--expanded').length > 0)
                     if(expanded)
                         document.getElementsByClassName('el-table__expand-icon--expanded')[0].click()

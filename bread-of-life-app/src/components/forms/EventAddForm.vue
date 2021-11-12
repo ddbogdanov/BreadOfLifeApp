@@ -57,7 +57,7 @@
         created() {
             let apiUrl = process.env.VUE_APP_BASE_API_URL + '/service/find-all'
 
-            axios.get(apiUrl).then((res) => {
+            axios.get(apiUrl).then((res) => { //fetch data of all services
                 this.servicesData = res.data
             }).catch(error => {
                 alert(error)
@@ -67,12 +67,12 @@
             onSubmit() {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events'
 
-                axios.post(apiUrl, this.event).then((res) => {
+                axios.post(apiUrl, this.event).then((res) => { //post new event
                     alert("Event: " + this.event.name + " Added!")
                     console.log(res.data)
 
                     //this.$router.go() //Reload page so table displays new data. Yes its lazy and there's a better way, no I dont care.
-                    this.$router.push('/manager')
+                    this.$router.push('/manager') //route to /manager after data is added
                 }).catch(error => {
                     alert(error)
                     this.$router.go()

@@ -2,7 +2,7 @@
     <section class="person-rsvp-form-container">
         <div class="person-rsvp-form">
 
-            <div v-if="!haveFound">
+            <div v-if="!haveFound"> <!--When person not found, ask person to enter first and last name -->
                 <h1 style="font-family: Roboto Light">First: Let's find you</h1>
                 <el-form :inline="true" ref="formRef" :model="person" :rules="findRules">
                     <el-form-item label="First Name" prop="firstName">
@@ -17,7 +17,7 @@
                 </el-form>
             </div>
 
-            <div v-if="haveFound && haveLoaded">
+            <div v-if="haveFound && haveLoaded"> <!--When person has been found, allow them to RSVP to an event -->
                 <h1 style="font-family: Roboto Light">Now, Let's RSVP!</h1>
                 <el-form ref="rsvpFormRef" :model="eventRsvp" label-position="top" :rules="rsvpRules">
                     <el-form-item label="Which of these events are you planning on attending?" required style="margin-top: 50px;">
@@ -80,7 +80,7 @@ export default {
             person: { },
             eventRsvp: { },
             upcomingEvents: [],
-            referrals: [
+            referrals: [ //List of possible referral options. User is also allowed to enter their own
                 {
                     name: 'Facebook'
                 },
@@ -101,12 +101,12 @@ export default {
             haveFound: false,
             haveLoaded: false,
 
-            findRules: {
+            findRules: { //Validation rules for the first form
                 firstName: [
                     {
-                        required: true,
-                        message: 'First Name is required',
-                        trigger: 'change'
+                        required: true, //field is required
+                        message: 'First Name is required', //Message to display if rule is not satisfied
+                        trigger: 'change' //Rule trigger
                     }
                 ],
                 lastName: [
@@ -117,7 +117,7 @@ export default {
                     }
                 ]
             },
-            rsvpRules: {
+            rsvpRules: { //Validation rules for the second form
                 vaccinate: [
                     {
                         required: true,
@@ -146,7 +146,7 @@ export default {
        this.fetchUpcomingEvents()
     },
     methods: {
-        fetchUpcomingEvents() {
+        fetchUpcomingEvents() { //fetch 3 upcoming events
             let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/get-most-recent'
 
             axios.get(apiUrl).then((res) => {
@@ -158,8 +158,8 @@ export default {
         },
 
         onFindPerson() {
-            this.$refs.formRef.validate((valid) => {
-                if(valid) {
+            this.$refs.formRef.validate((valid) => { //validate form
+                if(valid) { //if form passes validation, then try and find the person
                     let apiUrl = process.env.VUE_APP_BASE_API_URL + '/person/' + this.person.firstName + '/' + this.person.lastName
 
                     axios.get(apiUrl).then((res) => {
@@ -189,7 +189,7 @@ export default {
         onSubmit() {
             this.$refs.rsvpFormRef.validate((valid) => {
                 if(valid) {
-                    this.eventRsvp.eventId = this.upcomingEvents[this.eventRadioIndex].eventId
+                    this.eventRsvp.eventId = this.upcomingEvents[this.eventRadioIndex].eventId //add eventId to eventRsvp object. eventRsvp is the events[] field in person DAO
                     this.eventRsvp.eventName = this.upcomingEvents[this.eventRadioIndex].name
 
                     let apiUrl = process.env.VUE_APP_BASE_API_URL + '/person/add-event/' + this.person.personId

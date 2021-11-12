@@ -49,7 +49,7 @@ import axios from "axios"
             onSubmit() {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + this.$route.params.id
 
-                axios.put(apiUrl, this.event).then((res) => {
+                axios.put(apiUrl, this.event).then((res) => { //submit the edited event data
                     console.log(res)
                     this.$router.push('/manager')
                 }).catch(error => {
@@ -64,7 +64,7 @@ import axios from "axios"
             fetchEventsData() {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/' + this.$route.params.id
 
-                axios.get(apiUrl).then((res) => {
+                axios.get(apiUrl).then((res) => { //fetch relevant event data
                     this.event = res.data[0]
                 }).catch(error => {
                     alert(error)
@@ -73,7 +73,7 @@ import axios from "axios"
             fetchServicesData() {
                 let apiUrl = process.env.VUE_APP_BASE_API_URL + '/service/find-all'
 
-                axios.get(apiUrl).then((res) => {
+                axios.get(apiUrl).then((res) => { //find all services to use in service selector
                     this.servicesData = res.data
                 }).catch(error => {
                     alert(error)

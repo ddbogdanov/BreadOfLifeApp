@@ -39,20 +39,20 @@
 
                 let apiUrlZips = process.env.VUE_APP_BASE_API_URL + '/person/get-unique-zipcodes'
 
-                axios.get(apiUrlZips).then((res) => {
-                    for(const zipcode of res.data) {
-                        let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/attendance/'
+                axios.get(apiUrlZips).then((res) => { //Get a list of unique zipcodes
+                    for(const zipcode of res.data) { //Loop through returned zipcodes
+                        let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/attendance/' //Construct a url based off of the current zipcode
                             + this.$route.params.id + '/'
                             + zipcode
-                        axios.get(apiUrl).then((resp) => {
-                            if(resp.data.length === 0) {
+                        axios.get(apiUrl).then((resp) => { //Use that ^ url to fetch attendance by zipcode
+                            if(resp.data.length === 0) { //if resp has no entires that means no rsvps have been made to this event from this zipcode
                                 //alert("NO DATA FOR ZIPCODE: " + zipcode)
                                 console.log("NO DATA FOR ZIPCODE: " + zipcode)
                             }
                             else {
                                 //alert(JSON.stringify(resp.data[0].RSVPs))
                                 this.labels.push(zipcode)
-                                this.colors.push(randomColor({luminosity: 'bright', hue: 'blue'}))
+                                this.colors.push(randomColor({luminosity: 'bright', hue: 'blue'})) //use randomcolor to create a new color - within a palette - for the new entry
                                 this.attendanceData.push(resp.data[0].RSVPs)
 
                                 //alert("FULL DATA:\n\n\n\n" + JSON.stringify(this.labels) + '\n\n\n\n' + JSON.stringify(this.attendanceData))
@@ -71,126 +71,3 @@
         }
     }
 </script>
-
-
-
-
-
-
-
-
-
-
-<!--// for(const zipcode of zipcodeData) {-->
-<!--//     alert(zipcode)-->
-<!--//     this.labels.push(zipcode)-->
-<!--//-->
-<!--//     let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/attendance/'-->
-<!--//         + this.$route.params.id + '/'-->
-<!--//         + zipcode-->
-<!--//     const { zipAttendance } = await axios.get(apiUrl)-->
-<!--//     alert(JSON.stringify(zipAttendance))-->
-<!--//-->
-<!--//     this.attendanceData.push(zipAttendance)-->
-<!--// }-->
-
-
-<!--<script>-->
-<!--import PieChart from "./PieChart.vue"-->
-<!--import axios from "axios"-->
-
-<!--export default {-->
-<!--    name: 'EventChart',-->
-<!--    components: { PieChart },-->
-
-<!--    data: () => ({-->
-<!--        loaded: false,-->
-<!--        chartdata: null,-->
-<!--        uniqueZipcodes: [],-->
-<!--    }),-->
-<!--    async mounted() {-->
-<!--        this.loaded = false-->
-<!--        try {-->
-<!--            // this.fetchUniqueZipcodes().then(() => {-->
-<!--            //     alert("THEN!!!!!")-->
-<!--            //     this.fetchAttendance().then(() => {-->
-<!--            //         alert("AGAIN THEN!!!")-->
-<!--            //         this.loaded = true-->
-<!--            //         alert(JSON.stringify(this.uniqueZipcodes))-->
-<!--            //         alert(JSON.stringify(this.chartData))-->
-<!--            //     })-->
-<!--            // })-->
-<!--            await this.fetchUniqueZipcodes()-->
-<!--            alert("MOUNTED" + JSON.stringify(this.uniqueZipcodes))-->
-<!--            // const { attendancelist } = await this.fetchAttendance()-->
-<!--            // this.chartdata = attendancelist-->
-<!--        } catch(e) {-->
-<!--            alert("CATCH" + e)-->
-<!--        }-->
-<!--    },-->
-<!--    methods: {-->
-<!--        async fetchUniqueZipcodes() {-->
-<!--            let apiUrl = process.env.VUE_APP_BASE_API_URL + '/person/get-unique-zipcodes'-->
-
-<!--            axios.get(apiUrl).then((res) => {-->
-<!--                this.uniqueZipcodes = res.data-->
-<!--                alert(JSON.stringify(this.uniqueZipcodes))-->
-<!--            }).catch(error => {-->
-<!--                alert(error)-->
-<!--            })-->
-<!--        },-->
-<!--        async fetchAttendance() {-->
-<!--            alert("fetching attendance")-->
-<!--            for(const zipcode in this.uniqueZipcodes) {-->
-<!--                let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/attendance/'-->
-<!--                    + this.$route.params.id + '/'-->
-<!--                    + zipcode-->
-
-<!--                axios.get(apiUrl).then((result) => {-->
-<!--                    this.chartData.push(result.data)-->
-<!--                }).catch(error => {-->
-<!--                    alert(error)-->
-<!--                })-->
-<!--            }-->
-<!--        },-->
-<!--    }-->
-<!--    // data() {-->
-<!--    //     return {-->
-<!--    //         loaded: false,-->
-<!--    //         chartData: null,-->
-<!--    //         uniqueZipcodes: []-->
-<!--    //     }-->
-<!--    // },-->
-<!--    // mounted() {-->
-<!--    //     this.loaded = false-->
-<!--    //     this.fetchUniqueZipcodes()-->
-<!--    //     this.fetchAttendance()-->
-<!--    //     this.loaded = true-->
-<!--    // },-->
-<!--    // methods: {-->
-<!--    //     fetchUniqueZipcodes() {-->
-<!--    //         let apiUrl = process.env.VUE_APP_BASE_API_URL + '/person/get-unique-zipcodes'-->
-<!--    //-->
-<!--    //         axios.get(apiUrl).then((res) => {-->
-<!--    //             this.uniqueZipcodes = res.data-->
-<!--    //         }).catch(error => {-->
-<!--    //             alert(error)-->
-<!--    //         })-->
-<!--    //     },-->
-<!--    //     fetchAttendance() {-->
-<!--    //         for(const zipcode in this.uniqueZipcodes) {-->
-<!--    //             alert("fetching attendance")-->
-<!--    //             let apiUrl = process.env.VUE_APP_BASE_API_URL + '/events/attendance/'-->
-<!--    //                 + this.$route.params.id + '/'-->
-<!--    //                 + zipcode-->
-<!--    //-->
-<!--    //             axios.get(apiUrl).then((result) => {-->
-<!--    //                 this.chartData.push(result.data)-->
-<!--    //             }).catch(error => {-->
-<!--    //                 alert(error)-->
-<!--    //             })-->
-<!--    //         }-->
-<!--    //     },-->
-<!--    // }-->
-<!--}-->
-<!--</script>-->
