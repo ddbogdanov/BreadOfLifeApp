@@ -262,7 +262,7 @@ server.get('/events/find-all', (req, res, next) => { //GET all events
     });
 });
 server.get('/events/get-most-recent', (req, res, next) => { //Get a list of 3 most current events
-    eventModel.find({},{name:1,date:1}).sort({date:-1}).limit(3)
+    eventModel.find({},{name:1,date:1,eventId:1}).sort({date:-1}).limit(3)
         .exec(function (err, result) {
                 if(err) {
                     res.send(err).end();
