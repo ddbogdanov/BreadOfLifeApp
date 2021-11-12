@@ -59,7 +59,7 @@
                                 :value="ethnicity.ethnicity"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item style="float: left;">
+                <el-form-item style="float: right;">
                     <el-button type="primary" @click="onSubmit">Register</el-button>
                     <el-button @click="onCancel">Cancel</el-button>
                 </el-form-item>
@@ -131,7 +131,6 @@ export default {
 
 <style scoped>
     .person-add-form-container {
-        background-color: #FFFFFF;
         color: #000000;
         width: 100%;
         padding-top: 1rem;

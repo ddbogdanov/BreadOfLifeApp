@@ -6,7 +6,8 @@
                 <h1>Have you registered with us before?</h1>
                 <el-row align="center" justify="space-between" style="margin-top: 4rem;">
                     <el-col :span="24">
-                        <el-button type="success" round plain style="width: 12rem; font-size:2rem;  font-family: Roboto Light,sans-serif;">Yes</el-button>
+                        <el-button type="success" round plain style="width: 12rem; font-size:2rem;  font-family: Roboto Light,sans-serif;"
+                                   @click="$router.push({name: 'PersonRsvpForm'})">Yes</el-button>
                         <el-button round style="width: 12rem; font-size:2rem; font-family: Roboto Light,sans-serif"
                                    @click="$router.push({name: 'PersonAddForm'})">No</el-button>
                     </el-col>

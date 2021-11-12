@@ -1,33 +1,9 @@
 <template>
-    <div class="hello">
-        <h1>Inputs</h1>
-        <p>String: {{ msg }}</p>
+    <div class="hello" style="background-color: #6197C4; height: 53rem">
+        <div style="color: white; position: absolute; top: 20%; left: 40%;">
+            <h1 style="font-family: Roboto Light,sans-serif; ">WELCOME</h1>
+            <h3 style="font-family: Roboto Light,sans-serif;">Begin by using the navbar to navigate somewhere</h3>
+        </div>
     </div>
 </template>
 
-<script>
-    export default {
-        name: "HelloWorld",
-        props: {
-            msg: String,
-        },
-    };
-</script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-    h3 {
-        margin: 40px 0 0;
-    }
-    ul {
-        list-style-type: none;
-        padding: 0;
-    }
-    li {
-        display: inline-block;
-        margin: 0 10px;
-    }
-    a {
-        color: #42b983;
-    }
-</style>
