@@ -29,8 +29,6 @@
         display: flex;
         justify-content: space-around;
         align-items: center;
-        padding-left: 2rem;
-        padding-right: 2rem;
         padding-top: .6rem;
 
         font-family: "Roboto",sans-serif;

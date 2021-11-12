@@ -23,6 +23,11 @@ const routes = [
         component: () => import("../views/Rsvp.vue"),
     },
     {
+        path: "/rsvp/add-person",
+        name: "PersonAddForm",
+        component: () => import("../components/forms/PersonAddForm.vue")
+    },
+    {
         path: "/manager",
         name: "Manager",
         component: () => import("../views/Manager.vue")
