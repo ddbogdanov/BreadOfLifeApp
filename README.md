@@ -1,33 +1,57 @@
-# project-cis_4339_project_1
+# CIS 4339 Project
 
-## **Project Choice**
-Option B: Bread of Life
+## **The Project** 
+**Sponsor**: Bread of Life
+
+The web app provides the following functionalities to the Houston based organization Bread Of Life:
+- Events Management
+- Event Data Visualization
+- Event Attendee Management/Overview
+- Event RSVP Form
 
 ## **Team**
   * Dennis Bogdanov
   * Melyssa Navarro
   * Muaz Sajid 
 
-## **Modules Needed**
-  * npm install express
-  * npm install mongoose
-  * npm install morgan
-  * npm install dotenv
-  * npm install mongoose-auto-increment
-  * *npm install nodemon* -this should be optional
+## **npm Modules Needed**
+  * express
+  * mongoose
+  * morgan
+  * dotenv
+  * mongoose-auto-increment
 
 ## **How To Run**
-In a terminal make sure you are under the "../backend" directory, then execute one of the following:
+### General
+First you will need to create the necessary .env files as follows:
+
+**In the `../backend` directory**:
+A .env file which contains the following:
+- `MONGO_URL = <MONGODB CONNECTION STRING>`
+
+**In the `../bread-of-life-app` directory**:
+A .env file which contains the following:
+- `VUE_APP_BASE_API_URL = <URL TO BACKEND API>` ex. "https://localhost/:####"
+
+### Backend
+In a terminal make sure you are under the `../backend` directory, then execute one of the following:
 
 **With Nodemon**
-
-*nodemon server.js*
+`nodemon server.js`
 
 **With node.js**
+`node server.js`
 
-*node server.js*
+### Frontend
+In a terminal make sure you are under the `../bread-of-life-app` directory, then execute the following:
+`npm run serve`
 
-## **Samples**
-Included in the repository is a 'Samples' folder. This folder contains a Postman file which can be imported into Postman - this file contains (hopefully) functioning HTTP requests to the backend API. 
+## Project Info
+Technologies Used
+- Node.js
+- Express
+- Mongoose
+- Vue.js
+- MongoDB
+- Element Plus components
 
-Additionally included is a sampleData file which contains, as the name of the file suggests, sample data. There is not a way to import this data directly through a bulk insert of sorts, but it should give you a good idea of what our data structure looks like. This data can be used alongside the above mentioned HTTP requests inside Postman to test the API.
